@@ -45,6 +45,8 @@ void loop() {
     agitateStepper.setSpeed(0);
     agitateStepper.step(0);
   }
+
+  printValues();
 }
 
 void checkButtonState() {
@@ -69,17 +71,20 @@ void checkButtonState() {
   }
   digitalWrite(LED_START, state);                     // indicates the state by ON/OFF the LED for START
   digitalWrite(LED_LOCK, lockState);                  // indicates the state by ON/OFF the LED for LOCK
-  Serial.print("state:");
-  Serial.println(state);
 }
 
 void setttingsCheck() {
   speedVal = map(analogRead(0), 1023, 0, 30, 140);    // Read analog value as SPEED
   ampVal = map(analogRead(1), 1023, 0, 100, 25);      // Read analog value as AMPLITUDE
+  agitateStepper.setSpeed(speedVal);
+}
+
+void printValues() {
   Serial.print("SPEED:");
   Serial.println(speedVal);
   Serial.print("Amplitude:");
   Serial.println(ampVal);
-
-  agitateStepper.setSpeed(speedVal);
+  Serial.print("state:");
+  Serial.println(state);
 }
+
