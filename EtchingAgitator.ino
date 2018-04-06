@@ -9,10 +9,9 @@ const int LED_START           = 4;            // Start/Stop button
 const int LED_LOCK            = 5;            // Lock/Unlock button pin
 int speedVal                  = 0;            // Stepper motor speed, controlled by pot on A0
 int ampVal                    = 0;            // Stepper motor  amplitude, controlled by pot on A1
-int shakerState               = 0;
+int shakerState               = LOW;
 int lockState                 = LOW;          // Current reading from the input PIN_LOCK
 int startState                = LOW;          // Current reading from the input PIN_START
-int state                     = LOW;
 
 Stepper agitateStepper(stepsPerRevolution, 8, 9, 10, 11); // Set PINS from L293D IC to Arduino (8,9,10,11) PINS
 
@@ -26,7 +25,7 @@ void setup() {
 
 void loop() {
   checkButtonState();               // Check 2 Buttons state (LOCK and START buttons)
-  if (state == HIGH) {
+  if (shakerState == HIGH) {
     for (int i = 0; i < 2; i++) {
       if (i == 0) {
         if (lockState == LOW) {     // If not LOCK then
@@ -58,18 +57,16 @@ void checkButtonState() {
       agitateStepper.step(ampVal);
       agitateStepper.step(-ampVal);
     }
-    state = LOW;                                      // Shaker Off
-    shakerState = 0;                                  // Shaker Off
+    shakerState = LOW;                                  // Shaker Off
   } else if (startState == HIGH && shakerState == 0) { // Startup Routine
     agitateStepper.setSpeed(40);                       // Initial default speed
     agitateStepper.step(-205);                         // Move backwards by more than 1 revolution in order to find the start position
     agitateStepper.step(100);                          // Move to middle position of the full range of motion
-    state = HIGH;                                      // Shaker On
-    shakerState = 1;                                   // Shaker On
+    shakerState = HIGH;                                   // Shaker On
   } else {
     // Do nothing.
   }
-  digitalWrite(LED_START, state);                     // indicates the state by ON/OFF the LED for START
+  digitalWrite(LED_START, shakerState);               // indicates the state by ON/OFF the LED for START
   digitalWrite(LED_LOCK, lockState);                  // indicates the state by ON/OFF the LED for LOCK
 }
 
@@ -85,6 +82,6 @@ void printValues() {
   Serial.print("Amplitude:");
   Serial.println(ampVal);
   Serial.print("state:");
-  Serial.println(state);
+  Serial.println(shakerState);
 }
 
