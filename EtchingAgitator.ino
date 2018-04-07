@@ -67,6 +67,7 @@ void startCheck() {
       agitateStepper.step(-ampliVal);
     }
     shakerState = LOW;                                  // Shaker Off
+
   } else if (startState == HIGH && shakerState == 0) { // Startup Routine
     agitateStepper.setSpeed(40);                       // Initial default speed
     agitateStepper.step(-205);                         // Move backwards by more than 1 revolution in order to find the start position
@@ -76,12 +77,12 @@ void startCheck() {
     // Do nothing.
   }
   digitalWrite(LED_START, shakerState);               // indicates the state by ON/OFF the LED for START
-  digitalWrite(LED_LOCK, lockState);                  // indicates the state by ON/OFF the LED for LOCK
+  digitalWrite(LED_LOCK, lockState);                // indicates the state by ON/OFF the LED for LOCK
 }
 
 void setttingsCheck() {
-  speedVal = map(analogRead(PIN_SPEED), 1023, 0, 30, 140);    // Read analog value as SPEED
-  ampliVal = map(analogRead(PIN_AMPLI), 1023, 0, 100, 25);      // Read analog value as AMPLITUDE
+  speedVal = map(analogRead(PIN_SPEED), 1023, 0, 140, 30);  // Read analog value as SPEED
+  ampliVal = map(analogRead(PIN_AMPLI), 1023, 0, 100, 25);  // Read analog value as AMPLITUDE
   agitateStepper.setSpeed(speedVal);
 }
 
