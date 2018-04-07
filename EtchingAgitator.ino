@@ -67,7 +67,7 @@ void startCheck() {
       agitateStepper.step(-ampliVal);
     }
     shakerState = LOW;                                  // Shaker Off
-
+    lockState = LOW;
   } else if (startState == HIGH && shakerState == 0) { // Startup Routine
     agitateStepper.setSpeed(40);                       // Initial default speed
     agitateStepper.step(-205);                         // Move backwards by more than 1 revolution in order to find the start position
