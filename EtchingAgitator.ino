@@ -41,6 +41,7 @@ void loop() {
     }
   } else  {
     lockState = LOW;                // Reset lock state if STOP
+    digitalWrite(LED_LOCK, lockState);                  // indicates the state by ON/OFF the LED for LOCK
     agitateStepper.setSpeed(0);
     agitateStepper.step(0);
   }
